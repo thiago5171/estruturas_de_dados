@@ -8,7 +8,7 @@ struct livro{
   int codigo;
   float preco;
   int estoque;
-  char editora[20];
+  char editora[30];
   struct livro *prox;
 };
 typedef struct livro prateleira;
@@ -21,7 +21,7 @@ int menu(){
   printf("|3 - Realizar consulta de um livro                    |\n");
   printf("|4 - Efetuar uma compra                               |\n");
   printf("|5 - Verificar a falta de estoque                     |\n");
-  printf("|6 - Exibir lista com todos                         |\n");
+  printf("|6 - Exibir lista com todos                           |\n");
   printf("|7 - Finalizar                                        |\n");
   printf("|-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=|\n");
 
@@ -33,18 +33,18 @@ int menu(){
 
 prateleira* inserir(){
   prateleira* livro = (prateleira*)malloc(sizeof(prateleira));
-  /*printf("\nDigite o titulo: ");
+  printf("\nDigite o titulo: ");
   scanf("%s",livro->titulo);
 
   printf("\nDigite o nome do autor: ");
   scanf("%s",livro->autor);
   
   printf("\nDigite o genero:  ");
-  scanf("%s",livro->genero);*/
+  scanf("%s",livro->genero);
   
   printf("\nDigite o  codigo (apenas numeros): ");
   scanf("%i",&livro->codigo);
-  /*
+  
   printf("\nDigite o preco : ");
   scanf("%f",&livro->preco);
   
@@ -52,7 +52,7 @@ prateleira* inserir(){
   scanf("%i",&livro->estoque);
   
   printf("\nDigite o nome da editora: ");
-  scanf("%s",livro->editora);*/
+  scanf("%s",livro->editora);
   return livro;
 }
 
@@ -61,17 +61,40 @@ prateleira* inserir(){
 void exibir(prateleira* l){
     
   if(l != NULL){
+    while(l != NULL){
       printf("\nTitulo:                %s",l->titulo);
       printf("\nAutor:                 %s",l->autor);
       printf("\nGenero:                %s",l->genero);
       printf("\nCodigo:                %i",l->codigo);
-      printf("\nPreco:                 %f",l->preco);
-     if(l->estoque < 1){
-      printf("Esgotado!!!");
-     }else{
-      printf("\nQuantidade em estoque: %i",l->estoque);
-     }
+      printf("\nPreco:               R$%.2f",l->preco);
       printf("\nEditora:               %s",l->editora);
+      if(l->estoque < 1){
+      printf("\nEsgotado!!!");
+      }else{
+      printf("\nQuantidade em estoque: %i",l->estoque);
+      }  
+      l = l->prox;
+    }
+  }else{
+      printf("\n\nNenhum livro foi cadastrado com este dado.\n\n");
+  }
+}
+
+void exibirUm(prateleira* l){
+    
+  if(l != NULL){
+
+      printf("\nTitulo:                %s",l->titulo);
+      printf("\nAutor:                 %s",l->autor);
+      printf("\nGenero:                %s",l->genero);
+      printf("\nCodigo:                %i",l->codigo);
+      printf("\nPreco:               R$%.2f",l->preco);
+      printf("\nEditora:               %s",l->editora);
+      if(l->estoque < 1){
+      printf("\nEsgotado!!!");
+      }else{
+      printf("\nQuantidade em estoque: %i",l->estoque);
+      }  
       l = l->prox;
   }else{
       printf("\n\nNenhum livro foi cadastrado com este dado.\n\n");
@@ -88,7 +111,6 @@ prateleira* cadastro(prateleira* booklist){
     return booklist;
   
   }else if(aux->codigo > booklist->codigo){
-    printf("else if");
     aux->prox = booklist;
     free(booklist);
     return aux;
@@ -116,28 +138,19 @@ prateleira* cadastro(prateleira* booklist){
   return 0;
 }   
 
-// prateleira* remover(prateleira *l, int c){
-//   prateleira *aux = l;
+
+int buscar(prateleira *l,int c){
   
-//   if(aux->codigo == c){
-//     aux = aux->prox;
-//     return aux;
-//   }else{
-//     prateleira *init = l;
-//     while(aux != NULL){
-//       if(aux->codigo == c){
-//         l= l->prox;
-//         aux->prox = l;
-//         break;
-//       }
-//     aux = l;
-//     l = l->prox;
-//     }
-// return init;
-// }
-// }
-
-
+  while(l != NULL){ 
+    if(l->codigo == c){
+      exibirUm(l);
+      return 1;
+    }
+    l = l->prox;
+  } 
+  printf("\nLivro nao encontrado.");
+  return 0;
+}
 
 int main(void) {
   int choice;
@@ -145,37 +158,34 @@ int main(void) {
   
 prateleira* inicio = NULL;
 
-  
-while(choice != 6){
+while(1){
   choice = menu();
  if (choice == 1){//cadastrar
 
   inicio = cadastro(inicio);
  }else if(choice == 2){//excluir
-    exibir(inicio);
+    
 
  }else if(choice ==3 ){//realizar consulta
-    printf("qual titulo deseja verificar se tem em estoque: ");
-     //scanf("%s",n);
+    printf("\nqual titulo deseja consultar: ");
+     scanf("%i",&n);
+     buscar(inicio, n);
      
     //consultar(inicio, n);
  }else if(choice == 4){//efetuar uma compra
-    printf("qual titulo deseja verificar se tem em estoque: ");
+    printf("  ");
      scanf("%i",&n);
      //inicio = remover(inicio, n);
      
  }else if(choice == 5){// verificar relção do falta do estoque
-    printf("what number you want to insert on the end of list: ");
+    printf(" ");
    
    //scanf("%s",&n);
   }else if(choice == 6){// exibir lista com todos os livros
-      prateleira *exib = inicio;
-      while(exib != NULL){
-
-      }
+      exibir(inicio);
 
   }else if(choice == 7){ 
-    printf("Atendimento finalizado\n Obrigado pela preferencia")
+    printf("Atendimento finalizado\nObrigado pela preferencia");
     break;
  }else {
    printf("choice is invalid!");
