@@ -136,60 +136,81 @@ prateleira* cadastro(prateleira* booklist){
     }   
   } 
   return 0;
-}   
+}
 
 
-void buscar(prateleira *l,int c){
-  
-  while(l != NULL){ 
-    if(l->codigo == c){
-      exibirUm(l);
-      break;
+
+int buscar(prateleira *l,int c){
+  prateleira *aux = l;
+
+  while(aux != NULL){ 
+    if(aux->codigo == c){
+      exibirUm(aux);
+      return 1;
     }
-    l = l->prox;
+    aux = aux->prox;
   } 
-  if(l==NULL){
   printf("\nLivro nao encontrado.");
+  return 0;
+}
+
+prateleira* excluir(prateleira *l, int c){
+  prateleira *aux = l;
+
+  if (aux->codigo == c){
+    aux = aux->prox;
+    return aux;
+  }else{
+    while(l != NULL){
+      if((aux->prox)->codigo == c){
+        aux->prox = (aux->prox)->prox;
+        return l;
+      }
+      aux = aux->prox;
+    }
   }
+  return l;
 }
 
 int main(void) {
-  int choice;
+  int escolha;
   int n;
   
 prateleira* inicio = NULL;
 
 while(1){
-  choice = menu();
- if (choice == 1){//cadastrar
+  escolha = menu();
+ if (escolha == 1){//cadastrar
 
   inicio = cadastro(inicio);
- }else if(choice == 2){//excluir
-    
+ }else if(escolha == 2){//excluir
+    printf("\nDigite o codigo do livro que  deseja excluir: ");
+    scanf("%i",&n);
+    excluir(inicio, n);
 
- }else if(choice ==3 ){//realizar consulta
+ }else if(escolha ==3 ){//realizar consulta
     printf("\nDigite o codigo do livro que  deseja consultar: ");
      scanf("%i",&n);
      buscar(inicio, n);
      
     //consultar(inicio, n);
- }else if(choice == 4){//efetuar uma compra
+ }else if(escolha == 4){//efetuar uma compra
     printf("  ");
      scanf("%i",&n);
      //inicio = remover(inicio, n);
      
- }else if(choice == 5){// verificar relção do falta do estoque
+ }else if(escolha == 5){// verificar relção do falta do estoque
     printf(" ");
    
    //scanf("%s",&n);
-  }else if(choice == 6){// exibir lista com todos os livros
+  }else if(escolha == 6){// exibir lista com todos os livros
       exibir(inicio);
 
-  }else if(choice == 7){ 
+  }else if(escolha == 7){ 
     printf("Atendimento finalizado\nObrigado pela preferencia");
     break;
  }else {
-   printf("choice is invalid!");
+   printf("escolha is invalid!");
  
  }
 
