@@ -139,17 +139,18 @@ prateleira* cadastro(prateleira* booklist){
 }   
 
 
-int buscar(prateleira *l,int c){
+void buscar(prateleira *l,int c){
   
   while(l != NULL){ 
     if(l->codigo == c){
       exibirUm(l);
-      return 1;
+      break;
     }
     l = l->prox;
   } 
+  if(l==NULL){
   printf("\nLivro nao encontrado.");
-  return 0;
+  }
 }
 
 int main(void) {
@@ -167,7 +168,7 @@ while(1){
     
 
  }else if(choice ==3 ){//realizar consulta
-    printf("\nqual titulo deseja consultar: ");
+    printf("\nDigite o codigo do livro que  deseja consultar: ");
      scanf("%i",&n);
      buscar(inicio, n);
      
